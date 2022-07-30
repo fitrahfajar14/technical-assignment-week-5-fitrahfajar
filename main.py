@@ -4,11 +4,21 @@ import dht11
 
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 
-#depend where you are connecting the data pin
-instance = dht11.DHT11(pin = 4)
-
+sensor = dht11.DHT11(pin = 4)
+  
 while True:
-    result = instance.read()   #check the result from dht11 library
+    result = dht11.read_retry(sensor, pin)
     print("Temperature: %d C" % result.temperature)
     print("Humidity: %d %%" % result.humidity)
+
+        #Logic tambahan :
+        if temp > 30 :
+            print("suhu terasa panas")
+        elif temp <= 30 and temp >= 24 :
+            print("suhu terasa sejuk")
+        else :
+            print("suhu terasa dingin")
+            
+    else :
+        print("Gagal Membaca")
     time.sleep(3)
